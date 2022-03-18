@@ -5,12 +5,24 @@ export const all = async (req: Request, res: Response) =>{
     const list = await Todo.findAll();
 
     res.json({
-        list:listyou
+        list:list
     });
 }
 
-export const add = async () =>{
-    
+export const add = async (req: Request, res: Response) =>{
+    if(req.body.title){
+
+        let newTodo = await Todo.create({
+            title: req.body.title,
+            done: req.body.done ? true : false
+        });
+
+        res.status(201).json({item: newTodo});
+
+    } else{
+        res.json({error: 'OS DADOS NÃO FORAM ENVIADOS'});
+
+    }
 }
 
 export const update = async () =>{
